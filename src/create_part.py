@@ -9,4 +9,3 @@ def create_part(folder):
 			n = note.get_note(join(folder, f))
 			print(n)
 
-create_part("../test")

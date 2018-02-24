@@ -4,8 +4,8 @@ import numpy as np;
 from sys import argv
 import os
 import sys
-import note
 from operator import itemgetter
+import create_part
 
 def sec_elem(s):
     return s[1]
@@ -21,7 +21,7 @@ def getopts(argv):
 window_width = 20
 immune = 10
 
-name_file="partition"
+name_file="blob_notes"
 myargs = getopts(argv)
 if '-i' in myargs:  # Example usage.
     print(myargs['-i'])
@@ -47,7 +47,7 @@ params = cv2.SimpleBlobDetector_Params()
 
 # Filter by Area.
 params.filterByArea = True
-params.minArea = 20
+params.minArea = 10
 
 params.filterByConvexity = False
 
@@ -62,7 +62,7 @@ else :
 keypoints = detector.detect(im)
 
 # Draw blobs
-#im_with_keypoints = cv2.drawKeypoints(im_orig, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+im_with_keypoints = cv2.drawKeypoints(im_orig, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
 sorted_point_x=[]
 tmp=list(keypoints)
@@ -79,6 +79,7 @@ print("d")
 
 im2 = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
 k = 0
+list_filename = []
 for keyPoint in sorted_point_x:
     k = k + 1 
     x1 = keyPoint.pt[0]
@@ -86,11 +87,13 @@ for keyPoint in sorted_point_x:
     s = keyPoint.size
     crop_y = 140
     crop_x = 5
-    print(" x " + str(x1) + " y " + str(y1) + " s " + str(s))
     crop_img = im2[int(y1)-crop_y:int(y1)+crop_y, int(x1)-crop_x:int(x1)+crop_x + 4]
-    cv2.imwrite(script_dir + "/../assets/" + name_file + str(k) + ".png", crop_img);
+    filename = script_dir + "/../assets/" + name_file + str(k) + ".png"
+    cv2.imwrite(filename, crop_img);
+    list_filename.append(filename)
+    print(" x " + str(x1) + " y " + str(y1) + " s " + str(s) + " at " + filename)
 
-
+create_part(list_filename)
 
 # Process the blobs in order
 
@@ -98,6 +101,6 @@ for keyPoint in sorted_point_x:
 #cv2.imwrite("treble_staff.jpg", im_with_keypoints)
 
 # Show blobs
-#cv2.imshow("Keypoints", im_with_keypoints)
+cv2.imshow("Keypoints", im_with_keypoints)
 cv2.waitKey();
 
