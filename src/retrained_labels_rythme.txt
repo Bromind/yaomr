@@ -1,4 +1,4 @@
-eighth
-half
-quarter
-sixteenth
+croches
+doubles
+junk
+noire
