@@ -39,4 +39,3 @@ violinSolo= \\new Voice \\relative a' {
   \layout { }
 }""")
 
-
