@@ -43,6 +43,7 @@ global= {
 violinSolo= \\new Voice \\relative a' {
 """)
 	for n in notes:
+            if(n[0] != "junk"):
 		part.write(note_dic[n[0]] + str(rythme_dic[n[1]]) + " ")
 	part.write("""
 }

@@ -82,11 +82,15 @@ for i in sums:
 	prev_line = sums[i]
 
 prev_split = rows
-r = range(len(splits), 0, -1)
 
-k = len(r)
-notes = []
-for i in r:
+if len(splits) == 0:
+    notes = blob_detection(im_orig, name_file + "_line_00", path_folder_out)
+    create_part(notes, name_file)
+else:
+    r = range(len(splits), 0, -1)
+    k = len(r)
+    notes = []
+    for i in r:
 	k = k - 1 
 	end_y = prev_split
 	begin_y = splits[i-1]
@@ -99,7 +103,7 @@ for i in r:
 	#cv2.imwrite("../assets/" + name_file + "_line_" + str(i-1) + ".png", splitted)
 	prev_split = splits[i-1]
 
-create_part(notes, name_file)
+    create_part(notes, name_file)
 
 #cv2.imwrite("treble_staff2.jpg", crop_img)
 #cv2.waitKey();
