@@ -26,7 +26,7 @@ file_path= script_dir + "/../assets/" + name_file + ".png"
 print(file_path)
 # Read image
 im_orig = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
-cv2.imshow("smoothed", im_orig)
+black_sum_thresh = 100
 
 # Gaussian blur 
 kernel = np.ones((15,15),np.float32)/225
@@ -37,67 +37,37 @@ smoothed = cv2.filter2D(im_orig,-1,kernel)
 im = smoothed
 _, im = cv2.threshold(im, 230, 255, cv2.THRESH_BINARY)
 
-im = 255 - im; 
-im = 255 - cv2.erode(im, np.ones((3,3)), iterations=6)
-im = (255-im)
+rows, cols = im.shape
+sums = {}
+for i in range(rows):
+    black_sum = 0
+    for j in range(cols):
+        if im[i, j] == 255:
+            black_sum = black_sum + 1
+    sums[i] = black_sum
 
-# Setup SimpleBlobDetector parameters.
-params = cv2.SimpleBlobDetector_Params()
+prev_line = sums[0]
+splits = []
+end_low = 0
+for i in sums:
+    if sums[i] < black_sum_thresh and prev_line >= black_sum_thresh:
+        split = ((i - end_low) / 2) +end_low 
+        splits.append(split)
+    if sums[i] >= black_sum_thresh and prev_line < black_sum_thresh:
+        end_low = i
+    prev_line = sums[i]
 
-# Filter by Area.
-# Change thresholds
-params.minThreshold = 200;
-params.maxThreshold = 50000;
- 
-# Filter by Area.
-params.filterByArea = True
-params.minArea = 10
- 
-# Filter by Circularity
-params.filterByCircularity = False
-params.minCircularity = 0.1
- 
-# Filter by Convexity
-params.filterByConvexity = False
- 
-# Filter by Inertia
-params.filterByInertia =False
-params.minInertiaRatio = 0.5
-
-# Create a detector with the parameters
-ver = (cv2.__version__).split('.')
-if int(ver[0]) < 3 :
-    detector = cv2.SimpleBlobDetector(params)
-else : 
-    detector = cv2.SimpleBlobDetector_create(params)
-
-# Detect blobs.
-im = 255 - im; 
-
-height = np.size(im, 0)
-width = np.size(im, 1)
-
-keypoints = detector.detect(im)
-im_with_keypoints = cv2.drawKeypoints(im, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-
-# Draw blobs
-sorted_point_x=[]
-tmp=list(keypoints)
-for i in range(len(keypoints)):
-    smallest = tmp[0]
-    for j in range(len(tmp)):
-        if(tmp[j].pt[1] < smallest.pt[1]):
-            smallest = tmp[j]
-    sorted_point_x.append(smallest)
-    if tmp:
-        tmp.remove(smallest)
-
-for keyPoint in sorted_point_x:
-    x1 = keyPoint.pt[0]
-    y1 = keyPoint.pt[1]
-    s = keyPoint.size
-    print(" x " + str(x1) + " y " + str(y1) + " s " + str(s))
+prev_split = rows
+r = range(len(splits), 0, -1)
+for i in r:
+    end_y = prev_split
+    begin_y = splits[i-1]
+    begin_x = 0
+    end_x = cols
+    splitted = im_orig[begin_y:end_y, begin_x:end_x]
+    cv2.imwrite("../assets/" + name_file + "_line_" + str(i-1) + ".png", splitted)
+    prev_split = splits[i-1]
 
 
 #cv2.imwrite("treble_staff2.jpg", crop_img)
-cv2.imwrite("treble_staff.jpg", im_with_keypoints)
+cv2.waitKey();
