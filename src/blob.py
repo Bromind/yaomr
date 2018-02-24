@@ -249,8 +249,6 @@ def blob_detection(im2, name_file, path_folder_out):
 			print(" x " + str(x1) + " " + str(x_min) + " " + str(x_max) + " y " + str(y1) + " s " + str(s))			
 			crop_img = im2[0:height, x_min:x_max]
 			file_name_note=path_folder_out + "/" + name_file + "_note_" + str(k).zfill(2) + ".png"
-			cv2.imshow('Img', crop_img)
-			cv2.waitKey(0)
 			cv2.imwrite(file_name_note, crop_img);
 			list_path.append(file_name_note)
 			print file_name_note
