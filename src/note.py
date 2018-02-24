@@ -101,3 +101,9 @@ def get_note(file_name):
   top_k_rythme   = results_rythme.argsort()[-1:][0]
 
   return (labels_note[top_k_note], labels_rythme[top_k_rythme])
+
+def get_notes(files):
+  res = []
+  for f in files:
+    res.append(get_note(f))
+  return res
