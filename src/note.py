@@ -71,6 +71,8 @@ input_operation_rythme  = graph_rythme.get_operation_by_name("import/input");
 output_operation_rythme = graph_rythme.get_operation_by_name("import/final_result");
 labels_note             = load_labels("retrained_labels_note.txt")
 labels_rythme           = load_labels("retrained_labels_rythme.txt")
+sess_note               = tf.Session(graph=graph_note)
+sess_rythme             = tf.Session(graph=graph_rythme)
 
 def get_note(file_name):
 	t = read_tensor_from_image_file(file_name,
@@ -79,16 +81,17 @@ def get_note(file_name):
 								  input_mean=input_mean,
 								  input_std=input_std)
 
-	with tf.Session(graph=graph_note) as sess:
-		results_note = sess.run(output_operation_note.outputs[0],
-					  {input_operation_note.outputs[0]: t})
-	results_note = np.squeeze(results_note)
+	results_note = np.squeeze(sess_note.run(
+		output_operation_note.outputs[0],
+		{input_operation_note.outputs[0]: t}
+	))
 	top_k_note   = results_note.argsort()[-1:][0]
 
-	with tf.Session(graph=graph_rythme) as sess:
-		results_rythme = sess.run(output_operation_rythme.outputs[0],
-					  {input_operation_rythme.outputs[0]: t})
-	results_rythme = np.squeeze(results_rythme)
+
+	results_rythme = np.squeeze(sess_rythme.run(
+		output_operation_rythme.outputs[0],
+		{input_operation_rythme.outputs[0]: t}
+	))
 	top_k_rythme   = results_rythme.argsort()[-1:][0]
 
 	return (labels_note[top_k_note], labels_rythme[top_k_rythme], file_name)

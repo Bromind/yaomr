@@ -32,7 +32,9 @@ def create_part(files, folder_name):
 	if SORT:
 		sort_blob(notes)
 		return
-	part = open("../output/"+folder_name+"/part.ly", "w")
+	partpath = "../output/" + folder_name
+	partname = partpath + "/part.ly"
+	part = open(partname, "w")
 	part.write("""\\version "2.18.2"
 
 global= {
@@ -53,7 +55,9 @@ violinSolo= \\new Voice {
 \score {
 	\\new Staff << \global \\violinSolo >>
 	\layout { }
+	\midi { }
 }""")
 	part.close()
+	os.system("lilypond -o " + partpath + " " + partname)
 
 

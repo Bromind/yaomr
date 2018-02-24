@@ -18,5 +18,5 @@ violinSolo= \new Voice \relative a' {
 \score {
   \new Staff << \global \violinSolo >>
   \layout { }
-  %\midi {}
+  \midi {}
 }
