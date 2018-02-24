@@ -31,7 +31,7 @@ def create_part(files):
 	if SORT:
 		sort_blob(notes)
 		return
-	part = open("part.ly", "w")
+	part = open("../output/part.ly", "w")
 	part.write("""\\version "2.18.2"
 
 global= {
