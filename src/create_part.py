@@ -1,7 +1,7 @@
 import note
 import io
 
-SORT = True
+SORT =False 
 
 note_dic = {
 	"la" : "a",
@@ -15,7 +15,7 @@ note_dic = {
 rythme_dic = {
 	"half"      : 2,
 	"quarter"   : 4,
-	"sixteenth" : 6,
+	"sixteenth" : 16,
 	"eighth"    : 8,
 }
 
@@ -41,7 +41,7 @@ violinSolo= \\new Voice \\relative a' {
 """)
 	for n in notes:
 	    print n
-        part.write(note_dic[n[0]] + str(rythme_dic[n[1]]) + " ")
+            part.write(note_dic[n[0]] + str(rythme_dic[n[1]]) + " ")
 	part.write("""
 }
 
