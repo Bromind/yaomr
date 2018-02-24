@@ -5,7 +5,7 @@ from sys import argv
 import os
 import sys
 from operator import itemgetter
-import create_part
+from create_part import create_part
 
 def sec_elem(s):
     return s[1]
