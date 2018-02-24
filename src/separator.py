@@ -54,7 +54,7 @@ for i in range(myImage.size[0]):
     else:
         if increasing == True and prev_sum > threshold and i >= next_open_slot:
             small = myImage.crop((i-window_width/2, 0, i + window_width/2, myImage.size[1]))
-            small.save(output + "/" + name_file + "_" +str(i).zfill(3) + ".png")
+            small.save(output + "/" + name_file + "_" +str(i).zfill(4) + ".png")
             next_open_slot=i+immune
 
         increasing=False
