@@ -92,14 +92,12 @@ def get_note(file_name):
     results_note = sess.run(output_operation_note.outputs[0],
                       {input_operation_note.outputs[0]: t})
   results_note = np.squeeze(results_note)
-  top_k_note   = results_note.argsort()[-5:][::-1]
-
+  top_k_note   = results_note.argsort()[-1:][0]
 
   with tf.Session(graph=graph_rythme) as sess:
     results_rythme = sess.run(output_operation_rythme.outputs[0],
                       {input_operation_rythme.outputs[0]: t})
   results_rythme = np.squeeze(results_rythme)
-  top_k_rythme   = results_rythme.argsort()[-5:][::-1]
-  dic_note       = dict(zip(labels_note, results_note))
-  dic_rythme     = dict(zip(labels_rythme, results_rythme))
-  return (dic_note, dic_rythme)
+  top_k_rythme   = results_rythme.argsort()[-1:][0]
+
+  return (labels_note[top_k_note], labels_rythme[top_k_rythme])

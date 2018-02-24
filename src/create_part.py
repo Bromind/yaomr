@@ -7,6 +7,6 @@ def create_part(folder):
 	for f in listdir(folder):
 		if isfile(join(folder, f)):
 			n = note.get_note(join(folder, f))
-			print(n)
+			print(f, n)
 
 create_part("../test")
