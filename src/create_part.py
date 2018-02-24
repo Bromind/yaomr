@@ -1,7 +1,7 @@
 import note
 import io
 
-SORT =False 
+SORT = False
 
 note_dic = {
 	"la" : "a",
@@ -21,11 +21,11 @@ rythme_dic = {
 
 def sort_blob(notes):
 	for n in notes:
-		print(n)
+		print(n[1][0])
 	pass
 
 def create_part(files):
-	notes = note.get_notes(files)
+	notes = note.get_notes(files, SORT)
 	if SORT:
 		sort_blob(notes)
 		return
@@ -40,13 +40,13 @@ global= {
 violinSolo= \\new Voice \\relative a' {
 """)
 	for n in notes:
-	    print n
-            part.write(note_dic[n[0]] + str(rythme_dic[n[1]]) + " ")
+		part.write(note_dic[n[0]] + str(rythme_dic[n[1]]) + " ")
 	part.write("""
 }
 
 \score {
-    \\new Staff << \global \\violinSolo >>
-  \layout { }
+	\\new Staff << \global \\violinSolo >>
+	\layout { }
 }""")
+	part.close()
 
