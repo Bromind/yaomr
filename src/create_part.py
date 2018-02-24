@@ -2,6 +2,7 @@ import note
 import io
 import os
 import ntpath
+import settings
 
 SORT = False
 
@@ -44,20 +45,22 @@ global= {
 
 violinSolo= \\new Voice {
 """)
-        prev_note = notes[0];
+	prev_note = notes[0];
 	for n in notes:
-            if(n[0] != "junk"):
-		part.write(note_dic[n[0]] + str(rythme_dic[n[1]]) + " ")
-                prev_note = n
+		if(n[0] != "junk"):
+			part.write(note_dic[n[0]] + str(rythme_dic[n[1]]) + " ")
+			prev_note = n
 	part.write("""
 }
 
 \score {
 	\\new Staff << \global \\violinSolo >>
-	\layout { }
-	\midi { }
-}""")
+	\layout { }"""
+	if settings.midi:
+		part.write("\t\midi { }")
+	part.write("}")
 	part.close()
-	os.system("lilypond -o " + partpath + " " + partname)
+	if settings.build:
+		os.system("lilypond -o " + partpath + " " + partname)
 
 
