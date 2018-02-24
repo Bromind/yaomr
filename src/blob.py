@@ -106,7 +106,7 @@ def blob_detection(im2, name_file):
         s = keyPoint.size
         print(" x " + str(x1) + " y " + str(y1) + " s " + str(s))
         crop_img = im2[int(y1)-crop_y:int(y1)+crop_y, int(x1)-crop_x:int(x1)+crop_x + 4]
-        file_name_note=script_dir + "/../assets/" + name_file + "_note_" + str(k) + ".png"
+        file_name_note=script_dir + "/../assets/" + name_file + "_note_" + str(k).zfill(2) + ".png"
         cv2.imwrite(file_name_note, crop_img);
         list_path.append(file_name_note)
 
