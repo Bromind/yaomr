@@ -19,16 +19,7 @@ def getopts(argv):
         argv = argv[1:]  # Reduce the argument list by copying it starting from index 1.
     return opts
 
-def blob_detection(im2, name_file):
-
-    script_dir=os.path.dirname(__file__)
-    if(script_dir == ""):
-        script_dir="."
-
-    myargs = getopts(argv)
-    if '-i' in myargs:  # Example usage.
-        print(myargs['-i'])
-        name_file=myargs['-i']
+def blob_detection(im2, name_file, path_folder_out):
 
     # Read image from given argument: im
     im = im2
@@ -41,6 +32,7 @@ def blob_detection(im2, name_file):
     # the more we erode the more it diffuse
     erode_iteration=1
     # Number of pixel the round should be to be detected
+    # a small number will make the blob detector find more blobs
     min_blob_area=1
     #Matrix to erode
     erode_np = 3
@@ -107,7 +99,7 @@ def blob_detection(im2, name_file):
         s = keyPoint.size
         print(" x " + str(x1) + " y " + str(y1) + " s " + str(s))
         crop_img = im2[int(y1)-crop_y:int(y1)+crop_y, int(x1)-crop_x:int(x1)+crop_x + 4]
-        file_name_note=script_dir + "/../assets/" + name_file + "_note_" + str(k).zfill(2) + ".png"
+        file_name_note=path_folder_out + "/" + name_file + "_note_" + str(k).zfill(2) + ".png"
         cv2.imwrite(file_name_note, crop_img);
         list_path.append(file_name_note)
         print file_name_note

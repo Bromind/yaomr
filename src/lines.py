@@ -17,16 +17,25 @@ def getopts(argv):
     return opts
 
 name_file="full_page"
-myargs = getopts(argv)
-if '-i' in myargs:  # Example usage.
-    print(myargs['-i'])
-    name_file=myargs['-i']
-
 script_dir=os.path.dirname(__file__)
 if(script_dir == ""):
     script_dir="."
+
+path_folder_out=script_dir + "/../output/" + name_file
+myargs = getopts(argv)
+if '-i' in myargs:  # Example usage.
+    print("Using -i " + myargs['-i'])
+    name_file=myargs['-i']
+elif '-o' in myargs:
+    print("Using -o " + myargs['-o'])
+
+if not os.path.exists(path_folder_out):
+    os.makedirs(path_folder_out)
+print("Folder out: " + path_folder_out)
+
 file_path= script_dir + "/../assets/" + name_file + ".png"
-print(file_path)
+print("Input file: " + file_path)
+
 # Read image
 im_orig = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
 black_sum_thresh = 100
@@ -72,7 +81,7 @@ for i in r:
     begin_x = 0
     end_x = cols
     splitted = im_orig[begin_y:end_y, begin_x:end_x]
-    begining = blob_detection(splitted, name_file + "_line_" + str(i-1).zfill(2))
+    begining = blob_detection(splitted, name_file + "_line_" + str(i-1).zfill(2), path_folder_out)
     begining.extend(notes)
     notes = begining
     #cv2.imwrite("../assets/" + name_file + "_line_" + str(i-1) + ".png", splitted)
