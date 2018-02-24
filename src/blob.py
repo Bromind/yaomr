@@ -41,6 +41,8 @@ def blob_detection(im2, name_file, path_folder_out):
 	crop_y = 140
 	# Width
 	crop_x = 5
+	# Window: number of pixels before accepting a new blob
+	window=10
 	
 	# Keep the old image to print the detected blobs
 	im_orig = im
@@ -92,17 +94,23 @@ def blob_detection(im2, name_file, path_folder_out):
 
 	k = 0
 	list_path=[]
+	
+	old_x1 = -window
+	
 	for keyPoint in sorted_point_x:
 		k = k + 1 
 		x1 = keyPoint.pt[0]
 		y1 = keyPoint.pt[1]
 		s = keyPoint.size
-		print(" x " + str(x1) + " y " + str(y1) + " s " + str(s))
-		crop_img = im2[int(y1)-crop_y:int(y1)+crop_y, int(x1)-crop_x:int(x1)+crop_x + 4]
-		file_name_note=path_folder_out + "/" + name_file + "_note_" + str(k).zfill(2) + ".png"
-		cv2.imwrite(file_name_note, crop_img);
-		list_path.append(file_name_note)
-		print file_name_note
+		print(" " + str(int(x1)) + " " + str(old_x1) + " " + str(window))
+		if (int(x1) - old_x1) > window:
+			print(" x " + str(x1) + " y " + str(y1) + " s " + str(s))
+			crop_img = im2[int(y1)-crop_y:int(y1)+crop_y, int(x1)-crop_x:int(x1)+crop_x + 4]
+			file_name_note=path_folder_out + "/" + name_file + "_note_" + str(k).zfill(2) + ".png"
+			cv2.imwrite(file_name_note, crop_img);
+			list_path.append(file_name_note)
+			print file_name_note
+		old_x1 = int(x1)
 
 	return list_path
 	# Process the blobs in order

@@ -31,6 +31,15 @@ elif '-o' in myargs:
 path_folder_out=script_dir + "/../output/" + name_file
 if not os.path.exists(path_folder_out):
 	os.makedirs(path_folder_out)
+else:
+	for f in os.listdir(path_folder_out):
+		file_path = os.path.join(path_folder_out, f)
+		try:
+			if os.path.isfile(file_path):
+				os.unlink(file_path)
+		except Exception as e:
+			print(e)
+
 print("Folder out: " + path_folder_out)
 
 file_path= script_dir + "/../assets/" + name_file + ".png"
