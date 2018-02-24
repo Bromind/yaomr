@@ -1,6 +1,8 @@
 import note
 import io
 
+SORT = True
+
 note_dic = {
 	"la" : "a",
 	"si" : "b",
@@ -17,8 +19,17 @@ rythme_dic = {
 	"eighth"    : 8,
 }
 
+def sort_blob(notes):
+	for n in notes:
+		print(n)
+	pass
+
 def create_part(files):
-	notes = note.get_notes(files)
+	print("lehwfjk")
+	notes = note.get_notes(files, SORT)
+	if SORT:
+		sort_blob(notes)
+		return
 	part = open("part.ly", "w")
 	part.write("""\\version "2.18.2"
 
