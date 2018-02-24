@@ -21,7 +21,6 @@ script_dir=os.path.dirname(__file__)
 if(script_dir == ""):
 	script_dir="."
 
-path_folder_out=script_dir + "/../output/" + name_file
 myargs = getopts(argv)
 if '-i' in myargs:  # Example usage.
 	print("Using -i " + myargs['-i'])
@@ -29,6 +28,7 @@ if '-i' in myargs:  # Example usage.
 elif '-o' in myargs:
 	print("Using -o " + myargs['-o'])
 
+path_folder_out=script_dir + "/../output/" + name_file
 if not os.path.exists(path_folder_out):
 	os.makedirs(path_folder_out)
 print("Folder out: " + path_folder_out)
@@ -40,16 +40,22 @@ print("Input file: " + file_path)
 im_orig = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
 black_sum_thresh = 100
 
+print "kk"
+
 # Gaussian blur 
 kernel = np.ones((15,15),np.float32)/225
 smoothed = cv2.filter2D(im_orig,-1,kernel)
 
 #Line detection 
+print "kk"
 
 im = smoothed
 _, im = cv2.threshold(im, 230, 255, cv2.THRESH_BINARY)
 
+
+
 rows, cols = im.shape
+print str(rows) + " " + str(cols)
 sums = {}
 for i in range(rows):
 	black_sum = 0
