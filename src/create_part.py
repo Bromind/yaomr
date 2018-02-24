@@ -25,8 +25,7 @@ def sort_blob(notes):
 	pass
 
 def create_part(files):
-	print("lehwfjk")
-	notes = note.get_notes(files, SORT)
+	notes = note.get_notes(files)
 	if SORT:
 		sort_blob(notes)
 		return
@@ -41,7 +40,8 @@ global= {
 violinSolo= \\new Voice \\relative a' {
 """)
 	for n in notes:
-		part.write(note_dic[n[0]] + str(rythme_dic[n[1]]) + " ")
+	    print n
+        part.write(note_dic[n[0]] + str(rythme_dic[n[1]]) + " ")
 	part.write("""
 }
 

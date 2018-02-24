@@ -6,6 +6,7 @@ import os
 import sys
 from create_part import create_part
 from blob import blob_detection
+from create_part import create_part
 
 def getopts(argv):
     opts = {}  # Empty dictionary to store key-value pairs.
@@ -72,7 +73,7 @@ for i in r:
     end_x = cols
     splitted = im_orig[begin_y:end_y, begin_x:end_x]
     begining = blob_detection(splitted, name_file + "_line_" + str(i-1).zfill(2))
-    begining.append(notes)
+    begining.extend(notes)
     notes = begining
     #cv2.imwrite("../assets/" + name_file + "_line_" + str(i-1) + ".png", splitted)
     prev_split = splits[i-1]

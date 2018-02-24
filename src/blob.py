@@ -7,6 +7,7 @@ import sys
 import note
 from operator import itemgetter
 
+
 def sec_elem(s):
     return s[1]
 
@@ -109,6 +110,7 @@ def blob_detection(im2, name_file):
         file_name_note=script_dir + "/../assets/" + name_file + "_note_" + str(k).zfill(2) + ".png"
         cv2.imwrite(file_name_note, crop_img);
         list_path.append(file_name_note)
+        print file_name_note
 
     return list_path
     # Process the blobs in order
