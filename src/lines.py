@@ -1,5 +1,6 @@
 # Standard imports
 import cv2
+import cv
 import numpy as np;
 from sys import argv
 import os
@@ -35,19 +36,33 @@ smoothed = cv2.filter2D(im_orig,-1,kernel)
 
 im = smoothed
 _, im = cv2.threshold(im, 230, 255, cv2.THRESH_BINARY)
-cv2.imshow("smoothed", im)
 
 im = 255 - im; 
 im = 255 - cv2.erode(im, np.ones((3,3)), iterations=6)
+im = (255-im)
 
 # Setup SimpleBlobDetector parameters.
 params = cv2.SimpleBlobDetector_Params()
 
 # Filter by Area.
-params.filterByArea = False
-params.filterByInertia = False
-params.filterByConvexity = False
+# Change thresholds
+params.minThreshold = 200;
+params.maxThreshold = 50000;
+ 
+# Filter by Area.
+params.filterByArea = True
+params.minArea = 10
+ 
+# Filter by Circularity
 params.filterByCircularity = False
+params.minCircularity = 0.1
+ 
+# Filter by Convexity
+params.filterByConvexity = False
+ 
+# Filter by Inertia
+params.filterByInertia =False
+params.minInertiaRatio = 0.5
 
 # Create a detector with the parameters
 ver = (cv2.__version__).split('.')
@@ -58,20 +73,32 @@ else :
 
 # Detect blobs.
 im = 255 - im; 
-cv2.imshow("im", im)
-keypoints = detector.detect(im)
 
-# Draw blobs
+height = np.size(im, 0)
+width = np.size(im, 1)
+
+keypoints = detector.detect(im)
 im_with_keypoints = cv2.drawKeypoints(im, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
-for keyPoint in keypoints:
-    x = keyPoint.pt[0]
-    y = keyPoint.pt[1]
+# Draw blobs
+sorted_point_x=[]
+tmp=list(keypoints)
+for i in range(len(keypoints)):
+    smallest = tmp[0]
+    for j in range(len(tmp)):
+        if(tmp[j].pt[1] < smallest.pt[1]):
+            smallest = tmp[j]
+    sorted_point_x.append(smallest)
+    if tmp:
+        tmp.remove(smallest)
+
+for keyPoint in sorted_point_x:
+    x1 = keyPoint.pt[0]
+    y1 = keyPoint.pt[1]
     s = keyPoint.size
-    print(" x " + str(x) + " y " + str(y))
+    print(" x " + str(x1) + " y " + str(y1) + " s " + str(s))
 
 
-# Show blobs
-cv2.imshow("Keypoints", im_with_keypoints)
-cv2.waitKey();
-
+cv2.imwrite("treble_staff2.jpg", crop_img)
+cv2.imwrite("treble_staff.jpg", im_with_keypoints)
+print "ff"
