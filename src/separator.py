@@ -12,7 +12,7 @@ def getopts(argv):
     return opts
 
 window_width = 20
-immune = window_width
+immune = 10
 
 name_file="e3"
 
