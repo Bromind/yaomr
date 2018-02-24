@@ -5,7 +5,8 @@ import sys
 window_width = 20
 immune = window_width
 
-file_path="../assets/extract3.png"
+name_file="e3"
+file_path="../assets/" + name_file + ".png"
 
 try: 
     myImage = Image.open(file_path)
@@ -17,7 +18,8 @@ except:
 print "Output will be in: "
 output=os.path.splitext(file_path)[0]
 print(output)
-os.makedirs(output)
+if not os.path.exists(output):
+    os.makedirs(output)
 
 print "the image is: "
 print(myImage.format, myImage.size, myImage.mode)
@@ -45,7 +47,7 @@ for i in range(scaled.size[0]):
     else:
         if increasing == True and prev_sum > threshold and i >= next_open_slot:
             small = scaled.crop((i-window_width/2, 0, i + window_width/2, scaled.size[1]))
-            small.save(output + "/" + str(i).zfill(3) + ".png")
+            small.save(output + "/" + name_file + "_" +str(i).zfill(3) + ".png")
             next_open_slot=i+immune
 
         increasing=False
