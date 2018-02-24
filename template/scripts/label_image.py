@@ -133,5 +133,7 @@ if __name__ == "__main__":
 
   print('\nEvaluation time (1-image): {:.3f}s\n'.format(end-start))
 
-  for i in top_k:
-    print(labels[i], results[i])
+  if(results[0] > 0.75):
+    print("It looks like a " + labels[0])
+  else
+    print("Not sure what is can be..")
