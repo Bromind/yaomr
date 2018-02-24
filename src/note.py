@@ -68,8 +68,8 @@ def load_labels(label_file):
   return label
 
 def get_note(file_name):
-  model_file = "retrained_graph.pb"
-  label_file = "retrained_labels.txt"
+  model_file = "retrained_graph_note.pb"
+  label_file = "retrained_labels_note.txt"
   input_height = 224
   input_width = 224
   input_mean = 128

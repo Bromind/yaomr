@@ -3,6 +3,7 @@ from sys import argv
 import os
 import sys
 import note
+import rythme
 
 def getopts(argv):
     opts = {}  # Empty dictionary to store key-value pairs.
