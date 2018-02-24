@@ -5,6 +5,10 @@ from sys import argv
 import os
 import sys
 import note
+from operator import itemgetter
+
+def sec_elem(s):
+    return s[1]
 
 def getopts(argv):
     opts = {}  # Empty dictionary to store key-value pairs.
@@ -60,17 +64,30 @@ keypoints = detector.detect(im)
 # Draw blobs
 im_with_keypoints = cv2.drawKeypoints(im_orig, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
-for keyPoint in keypoints:
+sorted_point_x=[]
+tmp=list(keypoints)
+for i in range(len(keypoints)):
+    smallest = tmp[0]
+    for j in range(len(tmp)):
+        if(tmp[j].pt[0] < smallest.pt[0]):
+            smallest = tmp[j]
+    sorted_point_x.append(smallest)
+    if tmp:
+        tmp.remove(smallest)
+
+print("d")
+
+for keyPoint in sorted_point_x:
     x = keyPoint.pt[0]
     y = keyPoint.pt[1]
     s = keyPoint.size
-    print(" x " + str(x) + " y " + str(y))
+    print(" x " + str(x) + " y " + str(y) + " s " + str(s))
 
 
 #Write image
 cv2.imwrite("treble_staff.jpg", im_with_keypoints)
 
 # Show blobs
-cv2.imshow("Keypoints", im_with_keypoints)
+#cv2.imshow("Keypoints", im_with_keypoints)
 cv2.waitKey();
 
