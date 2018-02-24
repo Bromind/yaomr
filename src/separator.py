@@ -6,7 +6,8 @@ window_width = 10
 threshold = 10
 immune = 10
 
-file_path="../assets/e3.png"
+name_file="e3"
+file_path="../assets/" + name_file + ".png"
 
 try: 
     myImage = Image.open(file_path)
@@ -45,7 +46,7 @@ for i in range(scaled.size[0]):
     else:
         if increasing == True and prev_sum > threshold and i >= next_open_slot:
             small = scaled.crop((i-window_width/2, 0, i + window_width/2, scaled.size[0]))
-            small.save(output + "/" + str(i).zfill(3) + ".png")
+            small.save(output + "/" + name_file + "_" +str(i).zfill(3) + ".png")
             next_open_slot=i+immune
 
         increasing=False
