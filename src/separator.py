@@ -5,7 +5,7 @@ threshold = 10
 immune = 10
 
 try: 
-    myImage = Image.open("../assets/extract2.png")
+    myImage = Image.open("../assets/extract.png")
     myImage.load()
 except:
     print "Cannot open image"
@@ -13,7 +13,7 @@ except:
 print "the image is: "
 print(myImage.format, myImage.size, myImage.mode)
 scaled = myImage.copy()
-scaled.thumbnail((myImage.size[0], 48))
+#scaled.thumbnail((myImage.size[0], 48))
 scaled = scaled.convert("1")
 scaled.show()
 print "The thumbnail is:"
@@ -33,8 +33,8 @@ for i in range(scaled.size[0]):
         increasing=True
     else:
         if increasing == True and prev_sum > threshold and i >= next_open_slot:
-            small = scaled.crop((i-window_width/2, 0, i + window_width/2, 48))
-            small.save("../assets/separated/extract2/" + str(i).zfill(3) + ".png")
+            small = scaled.crop((i-window_width/2, 0, i + window_width/2, scaled.size[1]))
+            small.save("../assets/separated/extract/" + str(i).zfill(3) + ".png")
             next_open_slot=i+immune
 
         increasing=False
