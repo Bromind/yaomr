@@ -13,7 +13,7 @@ note_dic = {
 	"mi" : "e",
 	"fa" : "f",
 	"sol": "g",
-        "junk" : "",
+	"junk" : "",
 }
 rythme_dic = {
 	"half"      : 2,

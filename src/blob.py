@@ -26,13 +26,13 @@ def blob_detection(im2, name_file, path_folder_out):
 	# First Threshold
 	threshold_1 = 128
 	#Second Threshold after erode
-	threshold_2 = 64
+	threshold_2 = 64-64
 	# Number of pixel the round should be to be detected
 	# a small number will make the blob detector find more blobs
 	min_blob_area=1
 	# Number of time we erode:
 	# the more we erode the more it diffuse
-	erode_iteration=1
+	erode_iteration=0
 	#Matrix to erode
 	erode_np = 3
 	# If the image is too small; increase this
@@ -42,6 +42,8 @@ def blob_detection(im2, name_file, path_folder_out):
 	crop_x = 5
 	# Window: number of pixels before accepting a new blob
 	window=10
+	# invert image
+	invert=True
 	
 	# Keep the old image to print the detected blobs
 	im_orig = im2
@@ -49,10 +51,13 @@ def blob_detection(im2, name_file, path_folder_out):
 	_, im = cv2.threshold(im2, threshold_1 , 255, cv2.THRESH_BINARY)
 
 	# Invert the image
-	im = 255 - im; 
-	im = 255 - cv2.erode(im, np.ones((erode_np,erode_np)), iterations=erode_iteration)
+	if invert:
+		im = 255 - im;
+	if erode_iteration > 0:
+		im = 255 - cv2.erode(im, np.ones((erode_np,erode_np)), iterations=erode_iteration)
 
-	_, im = cv2.threshold(im, threshold_2, 255, cv2.THRESH_BINARY)
+	if threshold_2 > 0:
+		_, im = cv2.threshold(im, threshold_2, 255, cv2.THRESH_BINARY)
 
 	# Setup SimpleBlobDetector parameters.
 	params = cv2.SimpleBlobDetector_Params()
@@ -111,10 +116,11 @@ def blob_detection(im2, name_file, path_folder_out):
 			print file_name_note
 		old_x1 = int(x1)
 
-	return list_path
+
 	# Process the blobs in order
 	# Show blobs
-	#cv2.imshow("Keypoints", im_with_keypoints)
-	#cv2.imshow("Keypointsf", im)
-	#cv2.waitKey();
+	cv2.imshow("debugKeypoints", im_with_keypoints)
+	cv2.imshow("debugKeypointsf", im)
+	cv2.waitKey();
+	return list_path
 
