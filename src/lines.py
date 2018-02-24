@@ -1,5 +1,6 @@
 # Standard imports
 import cv2
+import cv
 import numpy as np;
 from sys import argv
 import os
@@ -26,7 +27,6 @@ file_path= script_dir + "/../assets/" + name_file + ".png"
 print(file_path)
 # Read image
 im_orig = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
-cv2.imshow("smoothed", im_orig)
 
 # Gaussian blur 
 kernel = np.ones((15,15),np.float32)/225
@@ -99,5 +99,6 @@ for keyPoint in sorted_point_x:
     print(" x " + str(x1) + " y " + str(y1) + " s " + str(s))
 
 
-#cv2.imwrite("treble_staff2.jpg", crop_img)
+cv2.imwrite("treble_staff2.jpg", crop_img)
 cv2.imwrite("treble_staff.jpg", im_with_keypoints)
+print "ff"
