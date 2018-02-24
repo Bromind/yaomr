@@ -40,6 +40,10 @@ def blob_detection(im2, name_file, path_folder_out):
 	erode_iteration=1
 	#Matrix to erode
 	erode_np = 3
+	
+	dilate_iteration=1
+	#Matrix to erode
+	dilate_np = 1
 	# If the image is too small; increase this
 	# Height
 	crop_y = 140
@@ -71,6 +75,9 @@ def blob_detection(im2, name_file, path_folder_out):
 		cv2.createTrackbar('switch',windows_name,0,1,nothing)
 		cv2.createTrackbar('erode_np',windows_name,2,8,nothing)
 
+		cv2.createTrackbar('dilate_np',windows_name,2,8,nothing)
+		cv2.createTrackbar('dilate_iteration',windows_name,1,8,nothing)
+
 	switch_image = 0
 
 	_, im = cv2.threshold(im2, threshold_1 , 255, cv2.THRESH_BINARY)
@@ -81,6 +88,8 @@ def blob_detection(im2, name_file, path_folder_out):
 		im = 255 - cv2.erode(im, np.ones((erode_np,erode_np)), iterations=erode_iteration)
 	if threshold_2 > 0:
 		_, im = cv2.threshold(im, threshold_2, 255, cv2.THRESH_BINARY)
+	if dilate_iteration > 0:
+		im = cv2.dilate(im,np.ones((dilate_np,dilate_np),np.uint8),iterations = dilate_iteration)
 
 	# Setup SimpleBlobDetector parameters.
 	params = cv2.SimpleBlobDetector_Params()
@@ -123,6 +132,9 @@ def blob_detection(im2, name_file, path_folder_out):
 			im = 255 - cv2.erode(im, np.ones((erode_np,erode_np)), iterations=erode_iteration)
 		if threshold_2 > 0:
 			_, im = cv2.threshold(im, threshold_2, 255, cv2.THRESH_BINARY)
+		if dilate_iteration > 0:
+			im = cv2.dilate(im,np.ones((dilate_np,dilate_np),np.uint8),iterations = dilate_iteration)
+
 
 		# Setup SimpleBlobDetector parameters.
 		params = cv2.SimpleBlobDetector_Params()
@@ -166,6 +178,9 @@ def blob_detection(im2, name_file, path_folder_out):
 		window = cv2.getTrackbarPos('window', windows_name)
 		invert = cv2.getTrackbarPos('invert', windows_name)
 		erode_np = cv2.getTrackbarPos('erode_np', windows_name)
+
+		dilate_np = cv2.getTrackbarPos('dilate_np', windows_name)
+		dilate_iteration = cv2.getTrackbarPos('dilate_iteration', windows_name)
 
 		switch_image = cv2.getTrackbarPos('switch_image', windows_name)
 		
