@@ -28,7 +28,7 @@ def blob_detection(im2, name_file, path_folder_out):
 
 	# Read image from given argument: im
 	# First Threshold
-	threshold_1 = 120
+	threshold_1 = 145
 	#Second Threshold after erode
 	threshold_2 = 0
 	# Number of pixel the round should be to be detected
@@ -37,7 +37,7 @@ def blob_detection(im2, name_file, path_folder_out):
 	max_blob_area=100
 	# Number of time we erode:
 	# the more we erode the more it diffuse
-	erode_iteration=1
+	erode_iteration=2
 	#Matrix to erode
 	erode_np = 3
 	
@@ -46,9 +46,9 @@ def blob_detection(im2, name_file, path_folder_out):
 	dilate_np = 1
 	# If the image is too small; increase this
 	# Height
-	crop_y = 140
+	crop_y = 100
 	# Width
-	crop_x = 5
+	crop_x = 15
 	# Window: number of pixels before accepting a new blob
 	window=10
 	# invert image
@@ -239,9 +239,22 @@ def blob_detection(im2, name_file, path_folder_out):
 		s = keyPoint.size
 		print(" " + str(int(x1)) + " " + str(old_x1) + " " + str(window))
 		if (int(x1) - old_x1) > window:
-			print(" x " + str(x1) + " y " + str(y1) + " s " + str(s))
-			crop_img = im_orig[int(y1)-crop_y/2:int(y1)+crop_y/2, int(x1)-crop_x/2:int(x1)+crop_x/2]
+			y_min=int(y1 - crop_y/2)
+			y_max=int(y1 + crop_y/2)
+			if(y_min < 0):
+				y_min = 0
+
+			x_min=int(x1-crop_x/2)
+			if(x_min < 0):
+				x_min = 0
+
+			x_max=int(x1+crop_x/2)
+			
+			print(" x " + str(x1) + " " + str(y_min) + " " + str(y_max) + " " + str(x_min) + " " + str(x_max) + " y " + str(y1) + " s " + str(s))			
+			crop_img = im2[y_min:y_max, x_min:x_max]
 			file_name_note=path_folder_out + "/" + name_file + "_note_" + str(k).zfill(2) + ".png"
+			cv2.imshow('Img', crop_img)
+			cv2.waitKey(0)
 			cv2.imwrite(file_name_note, crop_img);
 			list_path.append(file_name_note)
 			print file_name_note
