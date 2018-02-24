@@ -100,7 +100,7 @@ def get_note(file_name):
   results_rythme = np.squeeze(results_rythme)
   top_k_rythme   = results_rythme.argsort()[-1:][0]
 
-  return (labels_note[top_k_note], labels_rythme[top_k_rythme])
+  return (labels_note[top_k_note], labels_rythme[top_k_rythme], file_name)
 
 def get_notes(files):
   res = []
