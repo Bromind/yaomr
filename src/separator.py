@@ -1,15 +1,22 @@
 from PIL import Image
+import os
+
 
 window_width = 10
 threshold = 10
 immune = 10
 
+file_path="../assets/extract.png"
+
 try: 
-    myImage = Image.open("../assets/extract2.png")
+    myImage = Image.open(file_path)
     myImage.load()
 except:
-    print "Cannot open image"
+    print "Cannot open image" + file_path
 
+print "Output will be in: "
+output=os.path.splitext(file_path)[0]
+print(output)
 print "the image is: "
 print(myImage.format, myImage.size, myImage.mode)
 scaled = myImage.copy()
@@ -34,7 +41,7 @@ for i in range(scaled.size[0]):
     else:
         if increasing == True and prev_sum > threshold and i >= next_open_slot:
             small = scaled.crop((i-window_width/2, 0, i + window_width/2, 48))
-            small.save("../assets/separated/extract2/" + str(i).zfill(3) + ".png")
+            small.save(output/ + str(i).zfill(3) + ".png")
             next_open_slot=i+immune
 
         increasing=False
