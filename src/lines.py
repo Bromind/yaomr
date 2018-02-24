@@ -53,10 +53,9 @@ black_sum_thresh = 100
 # Gaussian blur 
 kernel = np.ones((15,15),np.float32)/225
 smoothed = cv2.filter2D(im_modified,-1,kernel)
-
 #Line detection 
 im = smoothed
-_, im = cv2.threshold(im, 230, 255, cv2.THRESH_BINARY)
+_, im = cv2.threshold(im, 240, 255, cv2.THRESH_BINARY)
 
 
 
