@@ -2,6 +2,7 @@ from PIL import Image
 from sys import argv
 import os
 import sys
+import note
 
 def getopts(argv):
     opts = {}  # Empty dictionary to store key-value pairs.
@@ -24,7 +25,7 @@ if '-i' in myargs:  # Example usage.
 script_dir=os.path.dirname(__file__)
 file_path= script_dir + "/../assets/" + name_file + ".png"
 
-try: 
+try:
     myImage = Image.open(file_path)
     myImage.load()
 except:
