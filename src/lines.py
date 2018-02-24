@@ -99,7 +99,7 @@ for i in r:
 	#cv2.imwrite("../assets/" + name_file + "_line_" + str(i-1) + ".png", splitted)
 	prev_split = splits[i-1]
 
-create_part(notes)
+create_part(notes, name_file)
 
 #cv2.imwrite("treble_staff2.jpg", crop_img)
 #cv2.waitKey();

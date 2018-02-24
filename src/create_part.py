@@ -13,6 +13,7 @@ note_dic = {
 	"mi" : "e",
 	"fa" : "f",
 	"sol": "g",
+        "junk" : "",
 }
 rythme_dic = {
 	"half"      : 2,
@@ -26,12 +27,12 @@ def sort_blob(notes):
 		os.rename(n[0], "../auto/" + n[1][0] + "/" + ntpath.basename(n[0]))
 	pass
 
-def create_part(files):
+def create_part(files, folder_name):
 	notes = note.get_notes(files, SORT)
 	if SORT:
 		sort_blob(notes)
 		return
-	part = open("../output/part.ly", "w")
+	part = open("../output/"+folder_name+"/part.ly", "w")
 	part.write("""\\version "2.18.2"
 
 global= {
