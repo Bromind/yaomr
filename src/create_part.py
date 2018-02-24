@@ -55,7 +55,7 @@ violinSolo= \\new Voice {
 
 \score {
 	\\new Staff << \global \\violinSolo >>
-	\layout { }"""
+	\layout { }""")
 	if settings.midi:
 		part.write("\t\midi { }")
 	part.write("}")

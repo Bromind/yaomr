@@ -1,6 +1,6 @@
 from Tkinter import *
-import Tkinter, Tkconstants, tkFileDialog, tkFileDialog, random, lines
-from Tkinter import Tk, Label, Button, Entry, StringVar, NORMAL, END, W, E, settings
+import Tkinter, Tkconstants, tkFileDialog, tkFileDialog, random, lines, settings
+from Tkinter import Tk, Label, Button, Entry, StringVar, NORMAL, END, W, E
 
 class GuessingGame:
 	def __init__(self, master):
@@ -14,10 +14,10 @@ class GuessingGame:
 		self.gen_button.pack()
 
 	def pick_file(self):
-		outdir = tkFileDialog.askopenfilename(initialdir = ".",title = "Select scores",filetypes =(("png files","*.png"),("all files","*.*")))
+		settings.outdir = tkFileDialog.askopenfilename(initialdir = ".",title = "Select scores",filetypes =(("png files","*.png"),("all files","*.*")))
 
 	def pick_folder(self):
-		infile = tkFileDialog.askdirectory(initialdir = ".")
+		settings.infile = tkFileDialog.askdirectory(initialdir = ".")
 
 root   = Tk()
 my_gui = GuessingGame(root)
