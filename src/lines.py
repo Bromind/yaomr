@@ -32,7 +32,7 @@ black_sum_thresh = 100
 kernel = np.ones((15,15),np.float32)/225
 smoothed = cv2.filter2D(im_orig,-1,kernel)
 
-#Blob detection 
+#Line detection 
 
 im = smoothed
 _, im = cv2.threshold(im, 230, 255, cv2.THRESH_BINARY)
