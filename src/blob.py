@@ -40,6 +40,10 @@ def blob_detection(im2, name_file, path_folder_out):
 	erode_iteration=1
 	#Matrix to erode
 	erode_np = 3
+	
+	dilate_iteration=1
+	#Matrix to erode
+	dilate_np = 1
 	# If the image is too small; increase this
 	# Height
 	crop_y = 140
@@ -69,6 +73,10 @@ def blob_detection(im2, name_file, path_folder_out):
 		cv2.createTrackbar('crop_x',windows_name,crop_x,200,nothing)
 		cv2.createTrackbar('invert',windows_name,invert,1,nothing)
 		cv2.createTrackbar('switch',windows_name,0,1,nothing)
+		cv2.createTrackbar('erode_np',windows_name,2,8,nothing)
+
+		cv2.createTrackbar('dilate_np',windows_name,2,8,nothing)
+		cv2.createTrackbar('dilate_iteration',windows_name,1,8,nothing)
 
 	switch_image = 0
 
@@ -80,6 +88,8 @@ def blob_detection(im2, name_file, path_folder_out):
 		im = 255 - cv2.erode(im, np.ones((erode_np,erode_np)), iterations=erode_iteration)
 	if threshold_2 > 0:
 		_, im = cv2.threshold(im, threshold_2, 255, cv2.THRESH_BINARY)
+	if dilate_iteration > 0:
+		im = cv2.dilate(im,np.ones((dilate_np,dilate_np),np.uint8),iterations = dilate_iteration)
 
 	# Setup SimpleBlobDetector parameters.
 	params = cv2.SimpleBlobDetector_Params()
@@ -112,6 +122,9 @@ def blob_detection(im2, name_file, path_folder_out):
 	while(guiactivated):
 	
 		_, im = cv2.threshold(im2, threshold_1 , 255, cv2.THRESH_BINARY)
+		
+		#im = cv2.GaussianBlur(im,(1,1),0)
+		
 		# Invert the image
 		if invert:
 			im = 255 - im;
@@ -119,6 +132,9 @@ def blob_detection(im2, name_file, path_folder_out):
 			im = 255 - cv2.erode(im, np.ones((erode_np,erode_np)), iterations=erode_iteration)
 		if threshold_2 > 0:
 			_, im = cv2.threshold(im, threshold_2, 255, cv2.THRESH_BINARY)
+		if dilate_iteration > 0:
+			im = cv2.dilate(im,np.ones((dilate_np,dilate_np),np.uint8),iterations = dilate_iteration)
+
 
 		# Setup SimpleBlobDetector parameters.
 		params = cv2.SimpleBlobDetector_Params()
@@ -145,7 +161,13 @@ def blob_detection(im2, name_file, path_folder_out):
 											  np.array([]), 
 											  (0,0,255), 
 											  cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-	
+
+		im2_with_keypoints = cv2.drawKeypoints(im,
+											  keypoints, 
+											  np.array([]), 
+											  (0,0,255), 
+											  cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+											 
 		threshold_1 = cv2.getTrackbarPos('threshold_1', windows_name)
 	   	threshold_2 = cv2.getTrackbarPos('threshold_2', windows_name)
 		min_blob_area = cv2.getTrackbarPos('min_blob_area', windows_name)
@@ -155,20 +177,28 @@ def blob_detection(im2, name_file, path_folder_out):
 		crop_x = cv2.getTrackbarPos('crop_x', windows_name)
 		window = cv2.getTrackbarPos('window', windows_name)
 		invert = cv2.getTrackbarPos('invert', windows_name)
+		erode_np = cv2.getTrackbarPos('erode_np', windows_name)
+
+		dilate_np = cv2.getTrackbarPos('dilate_np', windows_name)
+		dilate_iteration = cv2.getTrackbarPos('dilate_iteration', windows_name)
 
 		switch_image = cv2.getTrackbarPos('switch_image', windows_name)
-		im_out = im_with_keypoints
+		
+		#im_out = im_with_keypoints
+		im_out = im2_with_keypoints
 		#if switch_image:
 		#	im_out = im_with_keypoints
 		#else:
 		#	im_out = im
+		#im_out = im
 
 		old_x1 = -window
-		height, width, channels = im_out.shape
+		#height, width, channels = im_out.shape
 		for keyPoint in keypoints:
 			x1 = keyPoint.pt[0]
 			y1 = keyPoint.pt[1]
 			s = keyPoint.size
+			#print(" " + str(int(x1)) + " " + str(old_x1) + " " + str(window))
 			#if (int(x1) - old_x1) > window:
 			cv2.rectangle(im_out,	(int(x1) - crop_x/2, int(y1) - crop_y/2),
 									(int(x1) + crop_x/2, int(y1) + crop_y/2),
