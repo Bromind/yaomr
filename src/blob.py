@@ -8,7 +8,7 @@ import note
 from operator import itemgetter
 
 windows_name='debugKeypoints'
-guiactivated=False
+guiactivated=True
 
 def nothing(x):
     pass
@@ -34,6 +34,7 @@ def blob_detection(im2, name_file, path_folder_out):
 	# Number of pixel the round should be to be detected
 	# a small number will make the blob detector find more blobs
 	min_blob_area=10
+	max_blob_area=100
 	# Number of time we erode:
 	# the more we erode the more it diffuse
 	erode_iteration=1
@@ -61,6 +62,7 @@ def blob_detection(im2, name_file, path_folder_out):
 		cv2.createTrackbar('threshold_1',windows_name,threshold_1,255,nothing)
 		cv2.createTrackbar('threshold_2',windows_name,0,255,nothing)
 		cv2.createTrackbar('min_blob_area',windows_name,min_blob_area,255,nothing)
+		cv2.createTrackbar('max_blob_area',windows_name,max_blob_area,255,nothing)
 		cv2.createTrackbar('erode_iteration',windows_name,erode_iteration,10,nothing)
 		cv2.createTrackbar('window',windows_name,window,100,nothing)
 		cv2.createTrackbar('crop_y',windows_name,crop_y,200,nothing)
@@ -85,6 +87,7 @@ def blob_detection(im2, name_file, path_folder_out):
 	# Filter by Area.
 	params.filterByArea = True
 	params.minArea = min_blob_area
+	params.maxArea = max_blob_area
 
 	params.filterByConvexity = False
 
@@ -123,7 +126,7 @@ def blob_detection(im2, name_file, path_folder_out):
 		# Filter by Area.
 		params.filterByArea = True
 		params.minArea = min_blob_area
-
+		params.maxArea = max_blob_area
 		params.filterByConvexity = False
 
 		# Create a detector with the parameters
@@ -146,6 +149,7 @@ def blob_detection(im2, name_file, path_folder_out):
 		threshold_1 = cv2.getTrackbarPos('threshold_1', windows_name)
 	   	threshold_2 = cv2.getTrackbarPos('threshold_2', windows_name)
 		min_blob_area = cv2.getTrackbarPos('min_blob_area', windows_name)
+		max_blob_area = cv2.getTrackbarPos('max_blob_area', windows_name)
 		erode_iteration = cv2.getTrackbarPos('erode_iteration', windows_name)
 		crop_y = cv2.getTrackbarPos('crop_y', windows_name)
 		crop_x = cv2.getTrackbarPos('crop_x', windows_name)
@@ -160,19 +164,24 @@ def blob_detection(im2, name_file, path_folder_out):
 		#	im_out = im
 
 		old_x1 = -window
+		height, width, channels = im_out.shape
 		for keyPoint in keypoints:
 			x1 = keyPoint.pt[0]
 			y1 = keyPoint.pt[1]
 			s = keyPoint.size
 			#if (int(x1) - old_x1) > window:
-			cv2.rectangle(im_out,(int(y1),int(y1) + 10),(int(x1), int(x1)+ 10),(0,255,0), 1)
-			#old_x1 = int(x1)
+			cv2.rectangle(im_out,	(int(x1) - crop_x/2, int(y1) - crop_y/2),
+									(int(x1) + crop_x/2, int(y1) + crop_y/2),
+									(0,255,0), 1)
+			old_x1 = int(x1)
 
 		cv2.imshow(windows_name, im_out)
 
 		k = cv2.waitKey(1) & 0xFF
 		# Escape character
 		if k == 27:
+			# Exit windows when it is done
+			cv2.destroyWindow(windows_name)
 			break
 
 	#cv2.destroyAllWindows()
@@ -201,7 +210,7 @@ def blob_detection(im2, name_file, path_folder_out):
 		print(" " + str(int(x1)) + " " + str(old_x1) + " " + str(window))
 		if (int(x1) - old_x1) > window:
 			print(" x " + str(x1) + " y " + str(y1) + " s " + str(s))
-			crop_img = im_orig[int(y1)-crop_y:int(y1)+crop_y, int(x1)-crop_x:int(x1)+crop_x + 4]
+			crop_img = im_orig[int(y1)-crop_y/2:int(y1)+crop_y/2, int(x1)-crop_x/2:int(x1)+crop_x/2]
 			file_name_note=path_folder_out + "/" + name_file + "_note_" + str(k).zfill(2) + ".png"
 			cv2.imwrite(file_name_note, crop_img);
 			list_path.append(file_name_note)
