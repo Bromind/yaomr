@@ -1,19 +1,30 @@
 from PIL import Image
+import os
+import sys
 
 window_width = 10
 threshold = 10
 immune = 10
 
+file_path="../assets/e3.png"
+
 try: 
-    myImage = Image.open("../assets/extract2.png")
+    myImage = Image.open(file_path)
     myImage.load()
 except:
-    print "Cannot open image"
+    print "Cannot open image" + file_path
+    sys.exit(0)
+
+print "Output will be in: "
+output=os.path.splitext(file_path)[0]
+print(output)
+if not os.path.exists(output):
+    os.makedirs(output)
 
 print "the image is: "
 print(myImage.format, myImage.size, myImage.mode)
 scaled = myImage.copy()
-scaled.thumbnail((myImage.size[0], 48))
+#scaled.thumbnail((myImage.size[0], 48))
 scaled = scaled.convert("1")
 scaled.show()
 print "The thumbnail is:"
@@ -33,8 +44,8 @@ for i in range(scaled.size[0]):
         increasing=True
     else:
         if increasing == True and prev_sum > threshold and i >= next_open_slot:
-            small = scaled.crop((i-window_width/2, 0, i + window_width/2, 48))
-            small.save("../assets/separated/extract2/" + str(i).zfill(3) + ".png")
+            small = scaled.crop((i-window_width/2, 0, i + window_width/2, scaled.size[0]))
+            small.save(output + "/" + str(i).zfill(3) + ".png")
             next_open_slot=i+immune
 
         increasing=False
