@@ -239,8 +239,9 @@ def blob_detection(im2, name_file, path_folder_out):
 		s = keyPoint.size
 		print(" " + str(int(x1)) + " " + str(old_x1) + " " + str(window))
 		if (int(x1) - old_x1) > window:
-			print(" x " + str(x1) + " y " + str(y1) + " s " + str(s))
-			crop_img = im_orig[int(y1)-crop_y/2:int(y1)+crop_y/2, int(x1)-crop_x/2:int(x1)+crop_x/2]
+			print(" x " + str(x1) + " y " + str(y1) + " s " + str(s) + " crop_x " + str(crop_x) + " crop_y " + str(crop_y))
+			crop_img = im_orig[max([int(y1)-crop_y/2, 0]):int(y1)+crop_y/2, int(x1)-crop_x/2:int(x1)+crop_x/2]
+                        cv2.imshow("crop", crop_img)
 			file_name_note=path_folder_out + "/" + name_file + "_note_" + str(k).zfill(2) + ".png"
 			cv2.imwrite(file_name_note, crop_img);
 			list_path.append(file_name_note)
