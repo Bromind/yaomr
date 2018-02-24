@@ -47,17 +47,14 @@ print("Input file: " + file_path)
 
 # Read image
 im_orig = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
+im_modified = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
 black_sum_thresh = 100
-
-print "kk"
 
 # Gaussian blur 
 kernel = np.ones((15,15),np.float32)/225
-smoothed = cv2.filter2D(im_orig,-1,kernel)
+smoothed = cv2.filter2D(im_modified,-1,kernel)
 
 #Line detection 
-print "kk"
-
 im = smoothed
 _, im = cv2.threshold(im, 230, 255, cv2.THRESH_BINARY)
 
