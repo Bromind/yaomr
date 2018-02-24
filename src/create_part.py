@@ -16,10 +16,10 @@ note_dic = {
 	"junk" : "",
 }
 rythme_dic = {
-	"half"      : 2,
-	"quarter"   : 4,
-	"sixteenth" : 16,
-	"eighth"    : 8,
+	"noire"   : 4,
+	"croches" : 8,
+	"doubles" : 16,
+	"junk"    : "",
 }
 
 def sort_blob(notes):
