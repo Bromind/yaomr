@@ -231,7 +231,8 @@ def blob_detection(im2, name_file, path_folder_out):
 	list_path=[]
 	
 	old_x1 = -window
-	
+	height, width = im2.shape[:2]
+
 	for keyPoint in sorted_point_x:
 		k = k + 1 
 		x1 = keyPoint.pt[0]
@@ -239,19 +240,14 @@ def blob_detection(im2, name_file, path_folder_out):
 		s = keyPoint.size
 		print(" " + str(int(x1)) + " " + str(old_x1) + " " + str(window))
 		if (int(x1) - old_x1) > window:
-			y_min=int(y1 - crop_y/2)
-			y_max=int(y1 + crop_y/2)
-			if(y_min < 0):
-				y_min = 0
-
 			x_min=int(x1-crop_x/2)
 			if(x_min < 0):
 				x_min = 0
 
 			x_max=int(x1+crop_x/2)
 			
-			print(" x " + str(x1) + " " + str(y_min) + " " + str(y_max) + " " + str(x_min) + " " + str(x_max) + " y " + str(y1) + " s " + str(s))			
-			crop_img = im2[y_min:y_max, x_min:x_max]
+			print(" x " + str(x1) + " " + str(x_min) + " " + str(x_max) + " y " + str(y1) + " s " + str(s))			
+			crop_img = im2[0:height, x_min:x_max]
 			file_name_note=path_folder_out + "/" + name_file + "_note_" + str(k).zfill(2) + ".png"
 			cv2.imshow('Img', crop_img)
 			cv2.waitKey(0)
