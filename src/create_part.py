@@ -1,6 +1,7 @@
 import note
 import io
 import os
+import ntpath
 
 SORT = False
 
@@ -22,8 +23,7 @@ rythme_dic = {
 
 def sort_blob(notes):
 	for n in notes:
-		# print()
-		# os.rename(n[0], "../auto/" + n[1][0] + "/")
+		os.rename(n[0], "../auto/" + n[1][0] + "/" + ntpath.basename(n[0]))
 	pass
 
 def create_part(files):
