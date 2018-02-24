@@ -1,8 +1,6 @@
 \version "2.18.2"
 
 \header {
-  title = "Single line target"
-  composer = "inf3 <3"
 }
 
 

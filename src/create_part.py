@@ -6,13 +6,13 @@ import ntpath
 SORT = False
 
 note_dic = {
-	"la" : "a",
-	"si" : "b",
-	"do" : "c",
-	"re" : "d",
-	"mi" : "e",
-	"fa" : "f",
-	"sol": "g",
+	"la" : "a'",
+	"si" : "b'",
+	"do" : "c''",
+	"re" : "d''",
+	"mi" : "e''",
+	"fa" : "f''",
+	"sol": "g'",
 	"junk" : "",
 }
 rythme_dic = {
@@ -40,11 +40,13 @@ global= {
   \\time 4/4
 }
 
-violinSolo= \\new Voice \\relative a' {
+violinSolo= \\new Voice {
 """)
+        prev_note = notes[0];
 	for n in notes:
             if(n[0] != "junk"):
 		part.write(note_dic[n[0]] + str(rythme_dic[n[1]]) + " ")
+                prev_note = n
 	part.write("""
 }
 
@@ -53,4 +55,5 @@ violinSolo= \\new Voice \\relative a' {
 	\layout { }
 }""")
 	part.close()
+
 
