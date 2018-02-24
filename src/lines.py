@@ -69,7 +69,7 @@ for i in r:
     begin_x = 0
     end_x = cols
     splitted = im_orig[begin_y:end_y, begin_x:end_x]
-    blob_detection(splitted, name_file + "_line_" + str(i-1))
+    blob_detection(splitted, name_file + "_line_" + str(i-1).zfill(2))
     #cv2.imwrite("../assets/" + name_file + "_line_" + str(i-1) + ".png", splitted)
     prev_split = splits[i-1]
 

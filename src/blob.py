@@ -105,7 +105,7 @@ def blob_detection(im2, name_file):
         s = keyPoint.size
         print(" x " + str(x1) + " y " + str(y1) + " s " + str(s))
         crop_img = im2[int(y1)-crop_y:int(y1)+crop_y, int(x1)-crop_x:int(x1)+crop_x + 4]
-        cv2.imwrite(script_dir + "/../assets/" + name_file + "_note_" + str(k) + ".png", crop_img);
+        cv2.imwrite(script_dir + "/../assets/" + name_file + "_note_" + str(k).zfill(2) + ".png", crop_img);
 
     # Process the blobs in order
     # Show blobs
