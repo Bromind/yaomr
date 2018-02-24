@@ -8,6 +8,7 @@ import note
 from operator import itemgetter
 
 windows_name='debugKeypoints'
+guiactivated=False
 
 def nothing(x):
     pass
@@ -55,21 +56,59 @@ def blob_detection(im2, name_file, path_folder_out):
 
 	# Show blobs
 	#cv2.imshow("debugKeypointsf", im)
-	cv2.namedWindow(windows_name)
-	cv2.createTrackbar('threshold_1',windows_name,threshold_1,255,nothing)
-	cv2.createTrackbar('threshold_2',windows_name,0,255,nothing)
-	cv2.createTrackbar('min_blob_area',windows_name,min_blob_area,255,nothing)
-	cv2.createTrackbar('erode_iteration',windows_name,erode_iteration,10,nothing)
-	cv2.createTrackbar('window',windows_name,window,100,nothing)
-	cv2.createTrackbar('crop_y',windows_name,crop_y,200,nothing)
-	cv2.createTrackbar('crop_x',windows_name,crop_x,200,nothing)
-	cv2.createTrackbar('invert',windows_name,invert,1,nothing)
-	cv2.createTrackbar('switch',windows_name,0,1,nothing)
+	if(guiactivated):
+		cv2.namedWindow(windows_name)
+		cv2.createTrackbar('threshold_1',windows_name,threshold_1,255,nothing)
+		cv2.createTrackbar('threshold_2',windows_name,0,255,nothing)
+		cv2.createTrackbar('min_blob_area',windows_name,min_blob_area,255,nothing)
+		cv2.createTrackbar('erode_iteration',windows_name,erode_iteration,10,nothing)
+		cv2.createTrackbar('window',windows_name,window,100,nothing)
+		cv2.createTrackbar('crop_y',windows_name,crop_y,200,nothing)
+		cv2.createTrackbar('crop_x',windows_name,crop_x,200,nothing)
+		cv2.createTrackbar('invert',windows_name,invert,1,nothing)
+		cv2.createTrackbar('switch',windows_name,0,1,nothing)
+
 	switch_image = 0
 
-	while(1):
-		_, im = cv2.threshold(im2, threshold_1 , 255, cv2.THRESH_BINARY)
+	_, im = cv2.threshold(im2, threshold_1 , 255, cv2.THRESH_BINARY)
+	# Invert the image
+	if invert:
+		im = 255 - im;
+	if erode_iteration > 0:
+		im = 255 - cv2.erode(im, np.ones((erode_np,erode_np)), iterations=erode_iteration)
+	if threshold_2 > 0:
+		_, im = cv2.threshold(im, threshold_2, 255, cv2.THRESH_BINARY)
 
+	# Setup SimpleBlobDetector parameters.
+	params = cv2.SimpleBlobDetector_Params()
+
+	# Filter by Area.
+	params.filterByArea = True
+	params.minArea = min_blob_area
+
+	params.filterByConvexity = False
+
+	# Create a detector with the parameters
+	ver = (cv2.__version__).split('.')
+	if int(ver[0]) < 3 :
+		detector = cv2.SimpleBlobDetector(params)
+	else : 
+		detector = cv2.SimpleBlobDetector_create(params)
+
+	# Detect blobs.
+	keypoints = detector.detect(im)
+
+	# Draw blobs
+	im_with_keypoints = cv2.drawKeypoints(im_orig,
+										  keypoints, 
+										  np.array([]), 
+										  (0,0,255), 
+										  cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+
+
+	while(guiactivated):
+	
+		_, im = cv2.threshold(im2, threshold_1 , 255, cv2.THRESH_BINARY)
 		# Invert the image
 		if invert:
 			im = 255 - im;
@@ -114,10 +153,11 @@ def blob_detection(im2, name_file, path_folder_out):
 		invert = cv2.getTrackbarPos('invert', windows_name)
 
 		switch_image = cv2.getTrackbarPos('switch_image', windows_name)
-		if switch_image:
-			im_out = im_with_keypoints
-		else:
-			im_out = im
+		im_out = im_with_keypoints
+		#if switch_image:
+		#	im_out = im_with_keypoints
+		#else:
+		#	im_out = im
 
 		old_x1 = -window
 		for keyPoint in keypoints:
@@ -125,8 +165,7 @@ def blob_detection(im2, name_file, path_folder_out):
 			y1 = keyPoint.pt[1]
 			s = keyPoint.size
 			#if (int(x1) - old_x1) > window:
-			crop_img = im_orig[int(y1)-crop_y:int(y1)+crop_y, int(x1)-crop_x:int(x1)+crop_x + 4]
-			cv2.rectangle(im_out,(int(y1)-crop_y,int(y1)+crop_y),(int(x1)-crop_x, int(x1)+crop_x + 4),(0,255,0), 3)
+			cv2.rectangle(im_out,(int(y1),int(y1) + 10),(int(x1), int(x1)+ 10),(0,255,0), 1)
 			#old_x1 = int(x1)
 
 		cv2.imshow(windows_name, im_out)
