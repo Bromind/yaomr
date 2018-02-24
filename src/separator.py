@@ -3,7 +3,7 @@ import os
 import sys
 
 window_width = 20
-immune = window_width
+immune = 10
 
 name_file="e3"
 file_path="../assets/" + name_file + ".png"
