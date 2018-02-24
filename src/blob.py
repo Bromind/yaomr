@@ -26,13 +26,13 @@ def blob_detection(im2, name_file, path_folder_out):
 	# First Threshold
 	threshold_1 = 128
 	#Second Threshold after erode
-	threshold_2 = 64-64
+	threshold_2 = 0
 	# Number of pixel the round should be to be detected
 	# a small number will make the blob detector find more blobs
-	min_blob_area=1
+	min_blob_area=3
 	# Number of time we erode:
 	# the more we erode the more it diffuse
-	erode_iteration=0
+	erode_iteration=2
 	#Matrix to erode
 	erode_np = 3
 	# If the image is too small; increase this
@@ -44,6 +44,8 @@ def blob_detection(im2, name_file, path_folder_out):
 	window=10
 	# invert image
 	invert=True
+	
+	# Black circles will be taken into account for blob
 	
 	# Keep the old image to print the detected blobs
 	im_orig = im2
