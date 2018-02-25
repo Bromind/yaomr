@@ -1,4 +1,3 @@
 croches
 doubles
-junk
 noire

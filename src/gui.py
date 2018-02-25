@@ -48,6 +48,8 @@ class MainGui:
 		self.midi_check.select()
 		self.build_check.pack()
 		self.midi_check.pack()
+		self.build_check.select()
+		self.midi_check.select()
 		self.folder_label.grid  (row=1, column=2, sticky=W)
 		self.file_label.grid    (row=2, column=2, sticky=W)
 		self.file_button.grid   (row=1, column=1, sticky=W)

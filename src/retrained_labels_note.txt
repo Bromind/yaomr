@@ -1,6 +1,5 @@
 do
 fa
-junk
 la
 mi
 re
