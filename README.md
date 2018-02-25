@@ -1,3 +1,5 @@
+![alt text](https://github.com/Bromind/yaomr/raw/master/REAME_Picture.jpg) 
+
 # Dependencies 
 python2.7
 pip install opencv-python
