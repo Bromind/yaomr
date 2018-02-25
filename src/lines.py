@@ -80,7 +80,7 @@ def separate_lines():
 	prev_split = rows
 
 	if len(splits) == 0:
-		notes = blob_detection(im_orig, name_file + "_line_00", path_folder_out)
+		notes = blob_detection(im_orig, name_file[:-4] + "_line_00", path_folder_out)
 		create_part(notes, name_file)
 	else:
 		r = range(len(splits), 0, -1)
@@ -93,7 +93,7 @@ def separate_lines():
 			begin_x = 0
 			end_x = cols
 			splitted = im_orig[begin_y:end_y, begin_x:end_x]
-			begining = blob_detection(splitted, name_file + "_line_" + str(i-1).zfill(2), path_folder_out)
+			begining = blob_detection(splitted, name_file[:-4] + "_line_" + str(i-1).zfill(2), path_folder_out)
 			begining.extend(notes)
 			notes = begining
 			#cv2.imwrite("../assets/" + name_file + "_line_" + str(i-1) + ".png", splitted)
