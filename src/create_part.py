@@ -33,7 +33,7 @@ def create_part(files, folder_name):
 	if SORT:
 		sort_blob(notes)
 		return
-	partpath = "../output/" + folder_name
+	partpath = settings.outdir
 	partname = partpath + "/part.ly"
 	part = open(partname, "w")
 	part.write("""\\version "2.18.2"
@@ -56,6 +56,7 @@ violinSolo= \\new Voice {
 \score {
 	\\new Staff << \global \\violinSolo >>
 	\layout { }""")
+
 	if settings.midi:
 		part.write("\t\midi { }")
 	part.write("}")

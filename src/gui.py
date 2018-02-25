@@ -14,10 +14,10 @@ class GuessingGame:
 		self.gen_button.pack()
 
 	def pick_file(self):
-		settings.outdir = tkFileDialog.askopenfilename(initialdir = ".",title = "Select scores",filetypes =(("png files","*.png"),("all files","*.*")))
+		settings.infile = tkFileDialog.askopenfilename(initialdir = ".",title = "Select scores",filetypes =(("png files","*.png"),("all files","*.*")))
 
 	def pick_folder(self):
-		settings.infile = tkFileDialog.askdirectory(initialdir = ".")
+		settings.outdir = tkFileDialog.askdirectory(initialdir = ".")
 
 root   = Tk()
 my_gui = GuessingGame(root)

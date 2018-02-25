@@ -4,9 +4,11 @@ import numpy as np;
 from sys import argv
 import os
 import sys
+import settings
 from create_part import create_part
 from blob import blob_detection
 from create_part import create_part
+from os.path import basename
 
 def getopts(argv):
 	opts = {}  # Empty dictionary to store key-value pairs.
@@ -17,19 +19,10 @@ def getopts(argv):
 	return opts
 
 def separate_lines():
-	name_file="full_page"
-	script_dir=os.path.dirname(__file__)
-	if(script_dir == ""):
-		script_dir="."
 
-	myargs = getopts(argv)
-	if '-i' in myargs:  # Example usage.
-		print("Using -i " + myargs['-i'])
-		name_file=myargs['-i']
-	elif '-o' in myargs:
-		print("Using -o " + myargs['-o'])
-
-	path_folder_out=script_dir + "/../output/" + name_file
+	print settings.outdir
+	print settings.infile
+	path_folder_out=settings.outdir
 	if not os.path.exists(path_folder_out):
 		os.makedirs(path_folder_out)
 	else:
@@ -43,8 +36,10 @@ def separate_lines():
 
 	print("Folder out: " + path_folder_out)
 
-	file_path= script_dir + "/../assets/" + name_file + ".png"
+	file_path= settings.infile
 	print("Input file: " + file_path)
+	name_file=basename(file_path)
+	print(name_file)
 
 	# Read image
 	im_orig = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
