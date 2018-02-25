@@ -17,6 +17,9 @@ rythme_dic = {
 	"noire"   : 4,
 	"croches" : 8,
 	"doubles" : 16,
+	"quarter"   : 4,
+	"eighth" : 8,
+	"sixteenth" : 16,
 }
 
 def sort_blob(notes):
@@ -41,11 +44,8 @@ global= {
 
 violinSolo= \\new Voice {
 """)
-	prev_note = notes[0];
 	for n in notes:
-		if(n[0] != "junk"):
-			part.write(note_dic[n[0]] + str(rythme_dic[n[1]]) + " ")
-			prev_note = n
+            part.write(note_dic[n[0]] + str(rythme_dic[n[1]]) + " ")
 	part.write("""
 }
 
