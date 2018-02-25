@@ -21,10 +21,6 @@ import argparse
 import sys
 import time
 
-import Tkinter
-from Tkinter import Tk, Label, Button, Entry, StringVar, Checkbutton, Radiobutton, NORMAL, END, W, E
-from PIL import Image, ImageTk
-
 import numpy as np
 import tensorflow as tf
 
@@ -78,9 +74,6 @@ labels_rythme           = load_labels("retrained_labels_rythme.txt")
 sess_note               = tf.Session(graph=graph_note)
 sess_rythme             = tf.Session(graph=graph_rythme)
 
-popup_threshold = 0.5
-v=0
-
 def get_note(file_name):
 	t = read_tensor_from_image_file(file_name,
 								  input_height=input_height,
@@ -107,53 +100,9 @@ def get_notes(files, sort):
     res = []
     for f in files:
         n = get_note(f)
-        if n[3] < popup_threshold:
-            n = (popup_ask_note(f), n[1], n[2], 1, n[4])
         print(f + " " + str(n[0]) + " " + str(n[3]))
         if sort:
             res.append((f,n))
         else:
             res.append(n)
     return res
-
-
-class PopUp:
-    def __init__(self, master, filename):
-        self.master = master
-        image = Image.open(filename)
-        display = ImageTk.PhotoImage(image)
-        #photo = Label(master, image=display)
-        #photo.pack()
-        self.question = Label(master, text="What note is on this picture ?")
-        self.question.pack()
-        self.r1 = Radiobutton(master, text="do", variable=v, value=0)
-        self.r1.pack()
-        self.r2 = Radiobutton(master, text="re", variable=v, value=5)
-        self.r2.pack()
-        self.r3 = Radiobutton(master, text="mi", variable=v, value=4)
-        self.r3.pack()
-        self.r4 = Radiobutton(master, text="fa", variable=v, value=1)
-        self.r4.pack()
-        self.r5 = Radiobutton(master, text="sol", variable=v, value=7)
-        self.r5.pack()
-        self.r6 = Radiobutton(master, text="la", variable=v, value=3)
-        self.r6.pack()
-        self.r7 = Radiobutton(master, text="si", variable=v, value=6)
-        self.r7.pack()
-        self.r8 = Radiobutton(master, text="junk", variable=v, value=2)
-        self.r8.pack()
-        self.valbut = Button(master, text="Validate", command=master.quit)
-        self.valbut.pack()
-        #self.photo.grid(row=1, column=2)
-
-
-
-def popup_ask_note(filename):
-    root   = Tk()
-    root.eval('tk::PlaceWindow %s center' % root.winfo_pathname(root.winfo_id()))
-    my_gui = PopUp(root, filename)
-    root.lift()
-    root.attributes('-topmost',True)
-    root.after_idle(root.attributes,'-topmost',False)
-    root.mainloop()
-    return labels_note[v]
