@@ -5,10 +5,10 @@ from sys import argv
 import os
 import sys
 import note
+from param import *
 from operator import itemgetter
 
 windows_name='debugKeypoints'
-guiactivated=True
 
 def nothing(x):
     pass
@@ -40,7 +40,7 @@ def blob_detection(im2, name_file, path_folder_out):
 	erode_iteration=2
 	#Matrix to erode
 	erode_np = 3
-	
+
 	dilate_iteration=1
 	#Matrix to erode
 	dilate_np = 1
@@ -54,14 +54,14 @@ def blob_detection(im2, name_file, path_folder_out):
 	# invert image
 	invert=1
 	# Black circles will be taken into account for blob
-	
+
 	# Keep the old image to print the detected blobs
 	im_orig = im2
 
 
 	# Show blobs
 	#cv2.imshow("debugKeypointsf", im)
-	if(guiactivated):
+	if blobgui :
 		cv2.namedWindow(windows_name)
 		cv2.createTrackbar('threshold_1',windows_name,threshold_1,255,nothing)
 		cv2.createTrackbar('threshold_2',windows_name,0,255,nothing)
@@ -105,7 +105,7 @@ def blob_detection(im2, name_file, path_folder_out):
 	ver = (cv2.__version__).split('.')
 	if int(ver[0]) < 3 :
 		detector = cv2.SimpleBlobDetector(params)
-	else : 
+	else :
 		detector = cv2.SimpleBlobDetector_create(params)
 
 	# Detect blobs.
@@ -113,18 +113,18 @@ def blob_detection(im2, name_file, path_folder_out):
 
 	# Draw blobs
 	im_with_keypoints = cv2.drawKeypoints(im_orig,
-										  keypoints, 
-										  np.array([]), 
-										  (0,0,255), 
+										  keypoints,
+										  np.array([]),
+										  (0,0,255),
 										  cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
 
-	while(guiactivated):
-	
+	while(blobgui):
+
 		_, im = cv2.threshold(im2, threshold_1 , 255, cv2.THRESH_BINARY)
-		
+
 		#im = cv2.GaussianBlur(im,(1,1),0)
-		
+
 		# Invert the image
 		if invert:
 			im = 255 - im;
@@ -149,7 +149,7 @@ def blob_detection(im2, name_file, path_folder_out):
 		ver = (cv2.__version__).split('.')
 		if int(ver[0]) < 3 :
 			detector = cv2.SimpleBlobDetector(params)
-		else : 
+		else :
 			detector = cv2.SimpleBlobDetector_create(params)
 
 		# Detect blobs.
@@ -157,17 +157,17 @@ def blob_detection(im2, name_file, path_folder_out):
 
 		# Draw blobs
 		im_with_keypoints = cv2.drawKeypoints(im_orig,
-											  keypoints, 
-											  np.array([]), 
-											  (0,0,255), 
+											  keypoints,
+											  np.array([]),
+											  (0,0,255),
 											  cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
 		im2_with_keypoints = cv2.drawKeypoints(im,
-											  keypoints, 
-											  np.array([]), 
-											  (0,0,255), 
+											  keypoints,
+											  np.array([]),
+											  (0,0,255),
 											  cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-											 
+
 		threshold_1 = cv2.getTrackbarPos('threshold_1', windows_name)
 	   	threshold_2 = cv2.getTrackbarPos('threshold_2', windows_name)
 		min_blob_area = cv2.getTrackbarPos('min_blob_area', windows_name)
@@ -183,7 +183,7 @@ def blob_detection(im2, name_file, path_folder_out):
 		dilate_iteration = cv2.getTrackbarPos('dilate_iteration', windows_name)
 
 		switch_image = cv2.getTrackbarPos('switch_image', windows_name)
-		
+
 		#im_out = im_with_keypoints
 		im_out = im2_with_keypoints
 		#if switch_image:
@@ -240,12 +240,12 @@ def blob_detection(im2, name_file, path_folder_out):
 
 	k = 0
 	list_path=[]
-	
+
 	old_x1 = -window
 	height, width = im2.shape[:2]
 
 	for keyPoint in sorted_point_x:
-		k = k + 1 
+		k = k + 1
 		x1 = keyPoint.pt[0]
 		y1 = keyPoint.pt[1]
 		s = keyPoint.size
@@ -256,8 +256,8 @@ def blob_detection(im2, name_file, path_folder_out):
 				x_min = 0
 
 			x_max=int(x1+crop_x/2)
-			
-			print(" x " + str(x1) + " " + str(x_min) + " " + str(x_max) + " y " + str(y1) + " s " + str(s))			
+
+			print(" x " + str(x1) + " " + str(x_min) + " " + str(x_max) + " y " + str(y1) + " s " + str(s))
 			crop_img = im2[0:height, x_min:x_max]
 			file_name_note=path_folder_out + "/" + name_file + "_note_" + str(k).zfill(2) + ".png"
 			cv2.imwrite(file_name_note, crop_img);

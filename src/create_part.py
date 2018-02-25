@@ -2,18 +2,16 @@ import note
 import io
 import os
 import ntpath
-import settings
-
-SORT = False
+import param
 
 note_dic = {
-	"la" : "a'",
-	"si" : "b'",
-	"do" : "c''",
-	"re" : "d''",
-	"mi" : "e''",
-	"fa" : "f''",
-	"sol": "g'",
+	"la"   : "a'",
+	"si"   : "b'",
+	"do"   : "c''",
+	"re"   : "d''",
+	"mi"   : "e''",
+	"fa"   : "f''",
+	"sol"  : "g'",
 	"junk" : "",
 }
 rythme_dic = {
@@ -29,11 +27,11 @@ def sort_blob(notes):
 	pass
 
 def create_part(files, folder_name):
-	notes = note.get_notes(files, SORT)
-	if SORT:
+	notes = note.get_notes(files, param.files_sort)
+	if param.files_sort:
 		sort_blob(notes)
 		return
-	partpath = settings.outdir
+	partpath = param.outdir
 	partname = partpath + "/part.ly"
 	part = open(partname, "w")
 	part.write("""\\version "2.18.2"
@@ -57,11 +55,9 @@ violinSolo= \\new Voice {
 	\\new Staff << \global \\violinSolo >>
 	\layout { }""")
 
-	if settings.midi:
+	if param.midi:
 		part.write("\t\midi { }")
 	part.write("}")
 	part.close()
-	if settings.build:
+	if param.build:
 		os.system("lilypond -o " + partpath + " " + partname)
-
-

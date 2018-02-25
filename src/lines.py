@@ -1,10 +1,10 @@
 # Standard imports
+import param
 import cv2
 import numpy as np;
 from sys import argv
 import os
 import sys
-import settings
 from create_part import create_part
 from blob import blob_detection
 from create_part import create_part
@@ -20,9 +20,9 @@ def getopts(argv):
 
 def separate_lines():
 
-	print settings.outdir
-	print settings.infile
-	path_folder_out=settings.outdir
+	print param.outdir
+	print param.infile
+	path_folder_out=param.outdir
 	if not os.path.exists(path_folder_out):
 		os.makedirs(path_folder_out)
 	else:
@@ -36,7 +36,7 @@ def separate_lines():
 
 	print("Folder out: " + path_folder_out)
 
-	file_path= settings.infile
+	file_path= param.infile
 	print("Input file: " + file_path)
 	name_file=basename(file_path)
 	print(name_file)
