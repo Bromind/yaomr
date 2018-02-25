@@ -24,8 +24,8 @@ class MainGui:
 	def __init__(self, master):
 		self.master = master
 		master.title("YAOMC")
-		self.folder_button = Button(master, text="Select scores", command=self.pick_file)
-		self.file_button   = Button(master, text="Select Output folder", command=self.pick_folder)
+		self.file_button   = Button(master, text="Select scores", command=self.pick_folder)
+		self.folder_button = Button(master, text="Select Output folder", command=self.pick_file)
 		self.gen_button    = Button(master, text="Generate", command=lines.separate_lines)
 		self.exit_button   = Button(master, text="Exit", command=master.quit)
 		self.folder_text   = StringVar()
@@ -40,8 +40,8 @@ class MainGui:
 		self.midi_check    = Checkbutton(master, text="midi" )
 		self.build_check.select()
 		self.midi_check.select()
-		self.folder_label.grid  (row=1, column=2, sticky=W)
-		self.file_label.grid    (row=2, column=2, sticky=W)
+		self.file_label.grid    (row=1, column=2, sticky=W)
+		self.folder_label.grid  (row=2, column=2, sticky=W)
 		self.file_button.grid   (row=1, column=1, sticky=W)
 		self.folder_button.grid (row=2, column=1, sticky=W)
 		self.gen_button.grid    (row=3, column=1)
