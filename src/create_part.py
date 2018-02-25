@@ -12,13 +12,11 @@ note_dic = {
 	"mi"   : "e''",
 	"fa"   : "f''",
 	"sol"  : "g'",
-	"junk" : "",
 }
 rythme_dic = {
 	"noire"   : 4,
 	"croches" : 8,
 	"doubles" : 16,
-	"junk"    : "",
 }
 
 def sort_blob(notes):
