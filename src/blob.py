@@ -216,6 +216,17 @@ def blob_detection(im2, name_file, path_folder_out):
 
 	#cv2.destroyAllWindows()
 
+        print("Configuration: \nthreshold 1 " + str(threshold_1)
+                +"\nthreshold 2 " + str(threshold_2)
+                +"\nmin blob area " + str(min_blob_area)
+                +"\nmax blob area " + str(max_blob_area)
+                +"\nerode iteration " + str(erode_iteration)
+                +"\ncrop x " + str(crop_x)
+                +"\ncrop y " + str(crop_y)
+                +"\nwindow " + str(window)
+                +"\ninvert " + str(invert)
+                +"\nerode np " + str(erode_np))
+
 	sorted_point_x=[]
 	tmp=list(keypoints)
 	for i in range(len(keypoints)):
