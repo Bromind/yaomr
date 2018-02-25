@@ -24,8 +24,8 @@ class MainGui:
 	def __init__(self, master):
 		self.master = master
 		master.title("YAOMC")
-		self.file_button   = Button(master, text="Select scores", command=self.pick_folder)
-		self.folder_button = Button(master, text="Select Output folder", command=self.pick_file)
+		self.file_button   = Button(master, text="Select scores", command=self.pick_file)
+		self.folder_button = Button(master, text="Select Output folder", command=self.pick_folder)
 		self.gen_button    = Button(master, text="Generate", command=lines.separate_lines)
 		self.exit_button   = Button(master, text="Exit", command=master.quit)
 		self.folder_text   = StringVar()
