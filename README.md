@@ -57,22 +57,22 @@ In order to train our neural network, we accumulated around 1300 musical symbols
 
 Two folders are provided, one sorted according to which note is on the image, and the other one depending on the rythm. The note data set includes 8 subfolders, one for each note plus one for junk symbols (silences, bars, tempi, etc.). Subfolders are named according to the french nomenclature with the correspondance with the letter system is provided below. All notes are natural.
 
-| French name | Letter |
+French name | Letter
 ---
-| LA | A |
-| SI | B |
-| DO | C |
-| RÉ | D |
-| MI | E |
-| FA | F |
-| SOL | G |
+LA | A
+SI | B
+DO | C
+RÉ | D
+MI | E
+FA | F
+SOL G
 
 The rythm folder is divided in four subfolders, three for common rythms and the last one for junk. Subfolders are named according to the french nomenclature, which correspondance with the english system is provided below.
 
-| French name | English Name |
+French name | English Name
 ---
-| Noire | Quarter |
-| Croche | Eighth |
-| Double Croche | Sixteenth |
+Noire | Quarter
+Croche | Eighth
+Double Croche | Sixteenth
 
 This dataset is not complete, it only covers a small part of music grammar, but is suitable for rapid prototyping. It was sorted by hand, hence errors *do* exists, although we hope they are not numerous. Considering the way the dataset was built, it is likely to be biased and hence, is provided *as is*, no guarantees are provided.
