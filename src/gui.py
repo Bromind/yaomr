@@ -38,6 +38,8 @@ class MainGui:
 		self.file_label    = Label (master, textvariable=self.file_text)
 		self.build_check   = Checkbutton(master, text="build")
 		self.midi_check    = Checkbutton(master, text="midi" )
+		self.build_check.select()
+		self.midi_check.select()
 		self.folder_label.grid  (row=1, column=2, sticky=W)
 		self.file_label.grid    (row=2, column=2, sticky=W)
 		self.file_button.grid   (row=1, column=1, sticky=W)
