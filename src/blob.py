@@ -8,8 +8,6 @@ import note
 from param import *
 from operator import itemgetter
 
-windows_name='debugKeypoints'
-
 def nothing(x):
     pass
 
