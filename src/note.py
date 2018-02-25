@@ -120,9 +120,9 @@ def get_notes(files, sort):
 class PopUp:
     def __init__(self, master, filename):
         self.master = master
-        image = Image.open(filename)
-        display = ImageTk.PhotoImage(image)
-        #photo = Label(master, image=display)
+        imag = Image.open(filename)
+        display = ImageTk.PhotoImage(imag)
+        photo = Label(master, image=display)
         #photo.pack()
         self.question = Label(master, text="What note is on this picture ?")
         self.question.pack()
@@ -142,7 +142,7 @@ class PopUp:
         self.r7.pack()
         self.r8 = Radiobutton(master, text="junk", variable=v, value=2)
         self.r8.pack()
-        self.valbut = Button(master, text="Validate", command=master.quit)
+        self.valbut = Button(master, text="Validate", command=master.destroy)
         self.valbut.pack()
         #self.photo.grid(row=1, column=2)
 
