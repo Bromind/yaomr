@@ -56,7 +56,6 @@ def blob_detection(im2, name_file, path_folder_out):
 	# Keep the old image to print the detected blobs
 	im_orig = im2
 
-
 	# Show blobs
 	#cv2.imshow("debugKeypointsf", im)
 	if blobgui :
@@ -182,37 +181,29 @@ def blob_detection(im2, name_file, path_folder_out):
 
 		switch_image = cv2.getTrackbarPos('switch_image', windows_name)
 
-		#im_out = im_with_keypoints
-		im_out = im2_with_keypoints
-		#if switch_image:
-		#	im_out = im_with_keypoints
-		#else:
-		#	im_out = im
-		#im_out = im
+		# Show the blobs on the image
+		im_out = im_with_keypoints
+		# If you want to display eroded image
+		#im_out = im2_with_keypoints
 
 		old_x1 = -window
-		#height, width, channels = im_out.shape
 		for keyPoint in keypoints:
 			x1 = keyPoint.pt[0]
 			y1 = keyPoint.pt[1]
 			s = keyPoint.size
-			#print(" " + str(int(x1)) + " " + str(old_x1) + " " + str(window))
-			#if (int(x1) - old_x1) > window:
+			# Draw rectangles where the blobs will be cropped
 			cv2.rectangle(im_out,	(int(x1) - crop_x/2, int(y1) - crop_y/2),
 									(int(x1) + crop_x/2, int(y1) + crop_y/2),
 									(0,255,0), 1)
 			old_x1 = int(x1)
 
 		cv2.imshow(windows_name, im_out)
-
 		k = cv2.waitKey(1) & 0xFF
 		# Escape character
 		if k == 27:
 			# Exit windows when it is done
 			cv2.destroyWindow(windows_name)
 			break
-
-	#cv2.destroyAllWindows()
 
         print("Configuration: \nthreshold 1 " + str(threshold_1)
                 +"\nthreshold 2 " + str(threshold_2)
@@ -248,6 +239,8 @@ def blob_detection(im2, name_file, path_folder_out):
 		y1 = keyPoint.pt[1]
 		s = keyPoint.size
 		print(" " + str(int(x1)) + " " + str(old_x1) + " " + str(window))
+		
+		# If the blobs are too close.. Maybe take the bigger one for optimization
 		if (int(x1) - old_x1) > window:
 			x_min=int(x1-crop_x/2)
 			if(x_min < 0):
@@ -255,7 +248,7 @@ def blob_detection(im2, name_file, path_folder_out):
 
 			x_max=int(x1+crop_x/2)
 
-			print(" x " + str(x1) + " " + str(x_min) + " " + str(x_max) + " y " + str(y1) + " s " + str(s))
+			print(" x " + str(x1) + " x_min " + str(x_min) + " x_max " + str(x_max) + " y " + str(y1) + " size " + str(s))
 			crop_img = im2[0:height, x_min:x_max]
 			file_name_note=path_folder_out + "/" + name_file + "_note_" + str(k).zfill(2) + ".png"
 			cv2.imwrite(file_name_note, crop_img);
