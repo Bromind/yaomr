@@ -67,7 +67,7 @@ DO | C
 RÉ | D
 MI | E
 FA | F
-SOL G
+SOL| G
 
 The rythm folder is divided in four subfolders, three for common rythms and the last one for junk. Subfolders are named according to the french nomenclature, which correspondance with the english system is provided below.
 
